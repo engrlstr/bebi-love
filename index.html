@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For My Love 💜</title>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #eafaf5, #f3e6ff);
+  cursor: url('cursor.png'), auto;
+}
+
+* { box-sizing: border-box; }
+
+.heart {
+  position: absolute;
+  color: rgba(170, 120, 200, 0.5);
+  font-size: 18px;
+  animation: float 6s linear infinite;
+}
+@keyframes float {
+  0% { transform: translateY(100vh); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+.center-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  width: 320px;
+  max-width: 90vw;
+}
+
+input, button {
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+  border: none;
+}
+
+button {
+  background: #cdb4db;
+  color: white;
+  cursor: pointer;
+}
+
+#mainPage {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  z-index: 2;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 180px;
+  background: rgba(255,255,255,0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  z-index: 3;
+}
+
+.sidebar button { width: 140px; }
+
+.content {
+  margin-left: 180px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.content-box {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.song { margin: 10px 0; padding: 10px; background: #f7f0ff; border-radius: 10px; }
+.song-title { font-weight: bold; }
+audio { width: 100%; }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.gallery-grid img {
+  width: 100%;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.notes { text-align:left; line-height:1.8; }
+
+.proposal-box { position: relative; height: 160px; }
+#noBtn { position: absolute; }
+
+#cinematic {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg,#e6ccff,#f3e6ff);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  z-index: 9999;
+}
+
+canvas { position: fixed; top:0; left:0; pointer-events:none; }
+
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<!-- LOGIN -->
+<div id="login" class="center-box">
+  <h2>💜 Enter Secret Code</h2>
+  <input id="code" type="password" placeholder="Enter code" />
+  <button id="enterBtn">Enter</button>
+</div>
+
+<!-- WELCOME -->
+<div id="welcome" class="center-box" style="display:none;">
+  <h2>Welcome baby 💜</h2>
+  <p>You finally made it...</p>
+</div>
+
+<!-- MAIN -->
+<div id="mainPage">
+
+  <div class="sidebar">
+    <button onclick="show('letter')">💌 Love Letter</button>
+    <button onclick="show('music')">🎵 Music</button>
+    <button onclick="show('notes')">📝 Notes</button>
+    <button onclick="show('gallery')">📸 Gallery</button>
+    <button onclick="show('proposal')">💍 Question</button>
+  </div>
+
+  <div class="content">
+
+    <div id="letter" class="content-box">
+      <h2>Love Letter 💜</h2>
+      <p id="typewriter"></p>
+    </div>
+
+    <div id="music" class="content-box" style="display:none;">
+      <h2>Music 🎵</h2>
+      <div class="song"><div class="song-title">💜 Song 1</div><audio controls src="songs/song1.mp3"></audio></div>
+      <div class="song"><div class="song-title">💜 Song 2</div><audio controls src="songs/song2.mp3"></audio></div>
+      <div class="song"><div class="song-title">💜 Song 3</div><audio controls src="songs/song3.mp3"></audio></div>
+    </div>
+
+    <div id="notes" class="content-box" style="display:none;">
+      <h2>Notes 📝</h2>
+      <div class="notes">
+        • don’t forget to eat on time<br>
+        • take care always<br>
+        • drive safe
+      </div>
+    </div>
+
+    <div id="gallery" class="content-box" style="display:none;">
+      <h2>Gallery 📸</h2>
+      <div class="gallery-grid">
+        <img src="https://picsum.photos/300?1" />
+        <img src="https://picsum.photos/300?2" />
+        <img src="https://picsum.photos/300?3" />
+        <img src="https://picsum.photos/300?4" />
+        <img src="https://picsum.photos/300?5" />
+        <img src="https://picsum.photos/300?6" />
+      </div>
+    </div>
+
+    <div id="proposal" class="content-box" style="display:none;">
+      <h2>Will you be my girlfriend? 💍</h2>
+      <div class="proposal-box">
+        <button onclick="yes()">Yes 💜</button>
+        <button id="noBtn" onmouseover="runNo()">No 🤍</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CINEMATIC -->
+<div id="cinematic">
+  <h1>She said YES 💜</h1>
+</div>
+
+<script>
+
+// hearts
+for(let i=0;i<25;i++){
+  let h=document.createElement('div');
+  h.className='heart';
+  h.innerHTML='💜';
+  h.style.left=Math.random()*100+'vw';
+  h.style.animationDuration=(3+Math.random()*3)+'s';
+  document.body.appendChild(h);
+}
+
+// GLOBAL SAFE FUNCTIONS
+window.show = function(id){
+  document.querySelectorAll('.content-box').forEach(x=>x.style.display='none');
+  document.getElementById(id).style.display='block';
+};
+
+window.runNo = function(){
+  const b=document.getElementById('noBtn');
+  b.style.left=Math.random()*200+'px';
+  b.style.top=Math.random()*120+'px';
+};
+
+window.yes = function(){
+  document.getElementById('cinematic').style.display='flex';
+  launchConfetti();
+};
+
+// LOGIN FIX
+function start(){
+  const code=document.getElementById('code').value;
+  if(code==='1234'){
+    document.getElementById('login').style.display='none';
+    document.getElementById('welcome').style.display='block';
+
+    setTimeout(()=>{
+      document.getElementById('welcome').style.display='none';
+      document.getElementById('mainPage').style.display='block';
+      type();
+      launchConfetti();
+    },2000);
+  }
+}
+
+document.getElementById('enterBtn').addEventListener('click',start);
+document.getElementById('code').addEventListener('keydown',(e)=>{if(e.key==='Enter')start();});
+
+function type(){
+  const text="Hi love, you are my forever 💜";
+  let i=0;
+  function t(){
+    if(i<text.length){
+      document.getElementById('typewriter').innerHTML+=text[i++];
+      setTimeout(t,40);
+    }
+  }
+  t();
+}
+
+function launchConfetti(){
+  const c=document.getElementById('confetti');
+  const ctx=c.getContext('2d');
+  c.width=innerWidth;
+  c.height=innerHeight;
+
+  let p=Array.from({length:80},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*5+2}));
+
+  function d(){
+    ctx.clearRect(0,0,c.width,c.height);
+    ctx.fillStyle='#cdb4db';
+    p.forEach(o=>{ctx.beginPath();ctx.arc(o.x,o.y,o.r,0,Math.PI*2);ctx.fill();o.y+=2;if(o.y>c.height)o.y=0;});
+    requestAnimationFrame(d);
+  }
+  d();
+}
+
+</script>
+
+</body>
+</html>
