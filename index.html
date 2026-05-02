@@ -113,6 +113,10 @@ audio { width: 100%; }
   width: 100%;
   border-radius: 12px;
   cursor: pointer;
+  transition: transform 0.2s;
+}
+.gallery-grid img:hover {
+  transform: scale(1.05);
 }
 
 .notes { text-align:left; line-height:1.8; }
@@ -137,6 +141,28 @@ audio { width: 100%; }
 
 canvas { position: fixed; top:0; left:0; pointer-events:none; }
 
+/* LIGHTBOX */
+#lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.9);
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+#lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 15px;
+  transition: transform 0.3s ease;
+}
+#lightbox img:active {
+  transform: scale(0.95);
+}
 </style>
 </head>
 
@@ -194,12 +220,12 @@ canvas { position: fixed; top:0; left:0; pointer-events:none; }
     <div id="gallery" class="content-box" style="display:none;">
       <h2>Our pictures together 📸</h2>
       <div class="gallery-grid">
-        <img src="images/img1.jpg">
-        <img src="images/img2.jpg">
-        <img src="images/img3.jpg">
-        <img src="images/img4.jpg">
-        <img src="images/img5.jpg">
-        <img src="images/img6.jpg">
+        <img src="images/img1.jpg" onclick="openLightbox(this)">
+        <img src="images/img2.jpg" onclick="openLightbox(this)">
+        <img src="images/img3.jpg" onclick="openLightbox(this)">
+        <img src="images/img4.jpg" onclick="openLightbox(this)">
+        <img src="images/img5.jpg" onclick="openLightbox(this)">
+        <img src="images/img6.jpg" onclick="openLightbox(this)">
       </div>
     </div>
 
@@ -219,6 +245,11 @@ canvas { position: fixed; top:0; left:0; pointer-events:none; }
   <h1>She said YES 💜</h1>
 </div>
 
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <img id="lightbox-img">
+</div>
+
 <script>
 
 // hearts
@@ -231,24 +262,26 @@ for(let i=0;i<25;i++){
   document.body.appendChild(h);
 }
 
-// GLOBAL SAFE FUNCTIONS
-window.show = function(id){
+// NAVIGATION
+function show(id){
   document.querySelectorAll('.content-box').forEach(x=>x.style.display='none');
   document.getElementById(id).style.display='block';
-};
+}
 
-window.runNo = function(){
+// NO BUTTON RUN
+function runNo(){
   const b=document.getElementById('noBtn');
   b.style.left=Math.random()*200+'px';
   b.style.top=Math.random()*120+'px';
-};
+}
 
-window.yes = function(){
+// YES BUTTON
+function yes(){
   document.getElementById('cinematic').style.display='flex';
   launchConfetti();
-};
+}
 
-// LOGIN FIX
+// LOGIN
 function start(){
   const code=document.getElementById('code').value;
   if(code==='1234'){
@@ -267,6 +300,7 @@ function start(){
 document.getElementById('enterBtn').addEventListener('click',start);
 document.getElementById('code').addEventListener('keydown',(e)=>{if(e.key==='Enter')start();});
 
+// TYPEWRITER
 function type(){
   const text="Hi love, you are my forever 💜";
   let i=0;
@@ -279,6 +313,21 @@ function type(){
   t();
 }
 
+// LIGHTBOX FUNCTION
+function openLightbox(img){
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+
+  lightbox.style.display = 'flex';
+  lightboxImg.src = img.src;
+}
+
+// CLOSE LIGHTBOX
+document.getElementById('lightbox').addEventListener('click', function(){
+  this.style.display = 'none';
+});
+
+// CONFETTI
 function launchConfetti(){
   const c=document.getElementById('confetti');
   const ctx=c.getContext('2d');
