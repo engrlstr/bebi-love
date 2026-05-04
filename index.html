@@ -272,7 +272,10 @@ audio{width:100%;}
 
 <script>
 
-/* DATE SYSTEM */
+/* =======================
+   DATE SYSTEM
+======================= */
+
 const startDate = new Date("2026-05-05T00:00:00");
 
 const unlockDays = {
@@ -297,16 +300,24 @@ function getDay(){
     now.getDate()
   );
 
-  return Math.floor((today - start) / (1000*60*60*24)) + 1;
+  return Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
 }
 
-/* NAVIGATION FIX */
+/* =======================
+   NAVIGATION (FIXED STATE BUG)
+======================= */
+
 function show(id){
   const today = getDay();
 
+  // ALWAYS hide all pages first
   document.querySelectorAll('.content-box')
     .forEach(x => x.style.display = 'none');
 
+  // ALWAYS hide lock screen unless needed
+  document.getElementById('locked').style.display = 'none';
+
+  // CHECK LOCK
   if (unlockDays[id] !== undefined && today < unlockDays[id]) {
     document.getElementById('locked').style.display = 'flex';
     document.getElementById('lockMsg').innerText =
@@ -314,11 +325,14 @@ function show(id){
     return;
   }
 
-  document.getElementById('locked').style.display = 'none';
+  // SHOW CONTENT
   document.getElementById(id).style.display = 'block';
 }
 
-/* LOGIN */
+/* =======================
+   LOGIN
+======================= */
+
 function start(){
   const code = document.getElementById('code').value;
 
@@ -335,9 +349,12 @@ function start(){
   }
 }
 
-/* TYPEWRITER */
+/* =======================
+   TYPEWRITER
+======================= */
+
 function type(){
-  const text = "Hi love, you are my forever 💜";
+  const text = "Hi love, you are my forever. I love you 💜";
   let i = 0;
 
   function t(){
@@ -349,7 +366,10 @@ function type(){
   t();
 }
 
-/* LIGHTBOX */
+/* =======================
+   LIGHTBOX
+======================= */
+
 function openLightbox(img){
   document.getElementById('lightbox').style.display='flex';
   document.getElementById('lightbox-img').src = img.src;
@@ -359,12 +379,18 @@ document.getElementById('lightbox').onclick = ()=>{
   document.getElementById('lightbox').style.display='none';
 };
 
-/* YES */
+/* =======================
+   YES BUTTON
+======================= */
+
 function yes(){
   document.getElementById('cinematic').style.display='flex';
 }
 
-/* NO BUTTON */
+/* =======================
+   NO BUTTON
+======================= */
+
 function runNo(){
   const btn = document.getElementById('noBtn');
   const box = document.querySelector('.proposal-box');
@@ -376,7 +402,10 @@ function runNo(){
   btn.style.top = Math.random() * maxY + 'px';
 }
 
-/* HEARTS */
+/* =======================
+   HEARTS
+======================= */
+
 for(let i=0;i<25;i++){
   let h=document.createElement('div');
   h.className='heart';
@@ -387,6 +416,7 @@ for(let i=0;i<25;i++){
 }
 
 </script>
+💜 WHAT IS NO
 
 </body>
 </html>
