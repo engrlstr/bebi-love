@@ -40,6 +40,7 @@ html, body {
   border-radius:20px;
   text-align:center;
   width:320px;
+  z-index:10;
 }
 
 input,button{
@@ -91,6 +92,23 @@ button{
   text-align:center;
 }
 
+/* LOCK SCREEN FIXED (IMPORTANT PART) */
+#locked{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  background:rgba(255,255,255,0.95);
+  z-index:9999;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+}
+
 .song{
   margin:10px 0;
   padding:10px;
@@ -123,8 +141,10 @@ audio{width:100%;}
   justify-content:center;
   align-items:center;
   font-size:30px;
+  z-index:999;
 }
 
+/* LIGHTBOX */
 #lightbox{
   display:none;
   position:fixed;
@@ -135,12 +155,14 @@ audio{width:100%;}
   background:rgba(0,0,0,0.9);
   justify-content:center;
   align-items:center;
+  z-index:10000;
 }
 #lightbox img{
   max-width:90%;
   max-height:90%;
 }
 
+/* PROPOSAL FIX */
 .proposal-box{
   position:relative;
   height:120px;
@@ -159,7 +181,7 @@ audio{width:100%;}
 <div id="login" class="center-box">
   <h2>💜 Enter Secret Code</h2>
   <input id="code" type="password"/>
-  <button id="enterBtn" onclick="start()">Enter</button>
+  <button onclick="start()">Enter</button>
 </div>
 
 <!-- WELCOME -->
@@ -236,8 +258,8 @@ audio{width:100%;}
 </div>
 </div>
 
-<!-- LOCK SCREEN -->
-<div id="locked" class="center-box" style="display:none;">
+<!-- LOCK SCREEN FIXED OVERLAY -->
+<div id="locked">
   <h2>💜 Locked</h2>
   <p id="lockMsg"></p>
 </div>
@@ -250,10 +272,7 @@ audio{width:100%;}
 
 <script>
 
-/* =======================
-   DATE SYSTEM (FIXED)
-======================= */
-
+/* DATE SYSTEM */
 const startDate = new Date("2026-05-05T00:00:00");
 
 const unlockDays = {
@@ -278,14 +297,10 @@ function getDay(){
     now.getDate()
   );
 
-  const diffTime = today - start;
-  return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+  return Math.floor((today - start) / (1000*60*60*24)) + 1;
 }
 
-/* =======================
-   NAVIGATION (LOCK FIXED)
-======================= */
-
+/* NAVIGATION FIX */
 function show(id){
   const today = getDay();
 
@@ -293,19 +308,17 @@ function show(id){
     .forEach(x => x.style.display = 'none');
 
   if (unlockDays[id] !== undefined && today < unlockDays[id]) {
-    document.getElementById('locked').style.display = 'block';
+    document.getElementById('locked').style.display = 'flex';
     document.getElementById('lockMsg').innerText =
       `Come back in ${unlockDays[id] - today} day(s) 💜`;
     return;
   }
 
+  document.getElementById('locked').style.display = 'none';
   document.getElementById(id).style.display = 'block';
 }
 
-/* =======================
-   LOGIN
-======================= */
-
+/* LOGIN */
 function start(){
   const code = document.getElementById('code').value;
 
@@ -322,12 +335,9 @@ function start(){
   }
 }
 
-/* =======================
-   TYPEWRITER
-======================= */
-
+/* TYPEWRITER */
 function type(){
-  const text = "Hi love, you are my forever. I love you 💜";
+  const text = "Hi love, you are my forever 💜";
   let i = 0;
 
   function t(){
@@ -339,10 +349,7 @@ function type(){
   t();
 }
 
-/* =======================
-   LIGHTBOX
-======================= */
-
+/* LIGHTBOX */
 function openLightbox(img){
   document.getElementById('lightbox').style.display='flex';
   document.getElementById('lightbox-img').src = img.src;
@@ -352,18 +359,12 @@ document.getElementById('lightbox').onclick = ()=>{
   document.getElementById('lightbox').style.display='none';
 };
 
-/* =======================
-   YES BUTTON
-======================= */
-
+/* YES */
 function yes(){
   document.getElementById('cinematic').style.display='flex';
 }
 
-/* =======================
-   NO BUTTON RUN AWAY
-======================= */
-
+/* NO BUTTON */
 function runNo(){
   const btn = document.getElementById('noBtn');
   const box = document.querySelector('.proposal-box');
@@ -371,17 +372,11 @@ function runNo(){
   const maxX = box.clientWidth - 80;
   const maxY = box.clientHeight - 40;
 
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
-
-  btn.style.left = x + 'px';
-  btn.style.top = y + 'px';
+  btn.style.left = Math.random() * maxX + 'px';
+  btn.style.top = Math.random() * maxY + 'px';
 }
 
-/* =======================
-   HEARTS
-======================= */
-
+/* HEARTS */
 for(let i=0;i<25;i++){
   let h=document.createElement('div');
   h.className='heart';
