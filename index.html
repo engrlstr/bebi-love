@@ -141,7 +141,6 @@ audio { width: 100%; }
 
 canvas { position: fixed; top:0; left:0; pointer-events:none; }
 
-/* LIGHTBOX */
 #lightbox {
   display: none;
   position: fixed;
@@ -158,10 +157,6 @@ canvas { position: fixed; top:0; left:0; pointer-events:none; }
   max-width: 90%;
   max-height: 90%;
   border-radius: 15px;
-  transition: transform 0.3s ease;
-}
-#lightbox img:active {
-  transform: scale(0.95);
 }
 </style>
 </head>
@@ -170,20 +165,16 @@ canvas { position: fixed; top:0; left:0; pointer-events:none; }
 
 <canvas id="confetti"></canvas>
 
-<!-- LOGIN -->
 <div id="login" class="center-box">
   <h2>💜 Enter Secret Code</h2>
   <input id="code" type="password" placeholder="Enter code" />
   <button id="enterBtn">Enter</button>
 </div>
 
-<!-- WELCOME -->
 <div id="welcome" class="center-box" style="display:none;">
   <h2>Welcome baby 💜</h2>
-  <p>You finally made it! Naks alam ang secret code HAHAHAHAHA</p>
 </div>
 
-<!-- MAIN -->
 <div id="mainPage">
 
   <div class="sidebar">
@@ -202,30 +193,18 @@ canvas { position: fixed; top:0; left:0; pointer-events:none; }
     </div>
 
     <div id="music" class="content-box" style="display:none;">
-      <h2>Songs that reminds me of you 🎵</h2>
-      <div class="song"><div class="song-title">💜 Tahanan - El Manu</div><audio controls src="songs/song1.mp3"></audio></div>
-      <div class="song"><div class="song-title">💜 Those Eyes - New West</div><audio controls src="songs/song2.mp3"></audio></div>
-      <div class="song"><div class="song-title">💜 Best Part - Daniel Caesar</div><audio controls src="songs/song3.mp3"></audio></div>
+      <h2>Songs 🎵</h2>
     </div>
 
     <div id="notes" class="content-box" style="display:none;">
       <h2>Notes 📝</h2>
-      <div class="notes">
-        • Take care always!<br>
-        • Always eat on time.<br>
-        • Drive safe!
-      </div>
+      <div class="notes">Take care always 💜</div>
     </div>
 
     <div id="gallery" class="content-box" style="display:none;">
-      <h2>Our pictures together 📸</h2>
+      <h2>Gallery 📸</h2>
       <div class="gallery-grid">
         <img src="images/img1.jpg" onclick="openLightbox(this)">
-        <img src="images/img2.jpg" onclick="openLightbox(this)">
-        <img src="images/img3.jpg" onclick="openLightbox(this)">
-        <img src="images/img4.jpg" onclick="openLightbox(this)">
-        <img src="images/img5.jpg" onclick="openLightbox(this)">
-        <img src="images/img6.jpg" onclick="openLightbox(this)">
       </div>
     </div>
 
@@ -240,19 +219,33 @@ canvas { position: fixed; top:0; left:0; pointer-events:none; }
   </div>
 </div>
 
-<!-- CINEMATIC -->
 <div id="cinematic">
   <h1>She said YES 💜</h1>
 </div>
 
-<!-- LIGHTBOX -->
 <div id="lightbox">
   <img id="lightbox-img">
 </div>
 
 <script>
 
-// hearts
+// START DATE (EDIT THIS)
+const startDate = new Date("2026-05-05");
+
+function getDayNumber(){
+  const today = new Date();
+  const diff = today - startDate;
+  return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
+}
+
+const unlockDays = {
+  letter: 1,
+  notes: 2,
+  gallery: 3,
+  proposal: 4
+};
+
+// HEARTS
 for(let i=0;i<25;i++){
   let h=document.createElement('div');
   h.className='heart';
@@ -262,43 +255,40 @@ for(let i=0;i<25;i++){
   document.body.appendChild(h);
 }
 
-// NAVIGATION
+// SHOW FUNCTION WITH LOCK
 function show(id){
+  const currentDay = getDayNumber();
+
+  if(unlockDays[id] && currentDay < unlockDays[id]){
+    document.querySelectorAll('.content-box').forEach(x=>x.style.display='none');
+
+    const box = document.getElementById('letter');
+    box.style.display = 'block';
+    box.innerHTML = `
+      <h2>💜 Locked</h2>
+      <p>Come back soon love... unlocks in ${unlockDays[id] - currentDay} day(s) 💜</p>
+    `;
+    return;
+  }
+
   document.querySelectorAll('.content-box').forEach(x=>x.style.display='none');
   document.getElementById(id).style.display='block';
 }
 
-// NO BUTTON RUN
-function runNo(){
-  const b=document.getElementById('noBtn');
-  b.style.left=Math.random()*200+'px';
-  b.style.top=Math.random()*120+'px';
-}
-
-// YES BUTTON
-function yes(){
-  document.getElementById('cinematic').style.display='flex';
-  launchConfetti();
-}
-
 // LOGIN
 function start(){
-  const code=document.getElementById('code').value;
-  if(code==='blueberry'){
-    document.getElementById('login').style.display='none';
-    document.getElementById('welcome').style.display='block';
-
+  if(document.getElementById('code').value==='bebi'){
+    login.style.display='none';
+    welcome.style.display='block';
     setTimeout(()=>{
-      document.getElementById('welcome').style.display='none';
-      document.getElementById('mainPage').style.display='block';
+      welcome.style.display='none';
+      mainPage.style.display='block';
       type();
-      launchConfetti();
     },2000);
   }
 }
 
-document.getElementById('enterBtn').addEventListener('click',start);
-document.getElementById('code').addEventListener('keydown',(e)=>{if(e.key==='Enter')start();});
+enterBtn.onclick = start;
 
 // TYPEWRITER
 function type(){
@@ -306,43 +296,29 @@ function type(){
   let i=0;
   function t(){
     if(i<text.length){
-      document.getElementById('typewriter').innerHTML+=text[i++];
+      typewriter.innerHTML+=text[i++];
       setTimeout(t,40);
     }
   }
   t();
 }
 
-// LIGHTBOX FUNCTION
+// LIGHTBOX
 function openLightbox(img){
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-img');
+  lightbox.style.display='flex';
+  lightbox-img.src=img.src;
+}
+lightbox.onclick=()=>lightbox.style.display='none';
 
-  lightbox.style.display = 'flex';
-  lightboxImg.src = img.src;
+// NO BUTTON
+function runNo(){
+  noBtn.style.left=Math.random()*200+'px';
+  noBtn.style.top=Math.random()*120+'px';
 }
 
-// CLOSE LIGHTBOX
-document.getElementById('lightbox').addEventListener('click', function(){
-  this.style.display = 'none';
-});
-
-// CONFETTI
-function launchConfetti(){
-  const c=document.getElementById('confetti');
-  const ctx=c.getContext('2d');
-  c.width=innerWidth;
-  c.height=innerHeight;
-
-  let p=Array.from({length:80},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*5+2}));
-
-  function d(){
-    ctx.clearRect(0,0,c.width,c.height);
-    ctx.fillStyle='#cdb4db';
-    p.forEach(o=>{ctx.beginPath();ctx.arc(o.x,o.y,o.r,0,Math.PI*2);ctx.fill();o.y+=2;if(o.y>c.height)o.y=0;});
-    requestAnimationFrame(d);
-  }
-  d();
+// YES
+function yes(){
+  cinematic.style.display='flex';
 }
 
 </script>
