@@ -92,7 +92,7 @@ button {
   padding: 20px;
 }
 
-/* ✅ FIX IS HERE (ONLY CHANGE) */
+/* ✅ FIX */
 .content-box {
   display: none;
   background: white;
@@ -118,8 +118,6 @@ audio { width: 100%; }
   border-radius: 12px;
   cursor: pointer;
 }
-
-.notes { text-align: left; line-height: 1.8; }
 
 #cinematic {
   display: none;
@@ -168,7 +166,7 @@ canvas { position: fixed; top: 0; left: 0; pointer-events: none; }
 <!-- WELCOME -->
 <div id="welcome" class="center-box" style="display:none;">
   <h2>Welcome baby 💜</h2>
-  <p>You finally made it! Naks alam ang secret code HAHAHAHAHA</p>
+  <p>You finally made it!</p>
 </div>
 
 <!-- MAIN -->
@@ -190,47 +188,27 @@ canvas { position: fixed; top: 0; left: 0; pointer-events: none; }
     </div>
 
     <div id="music" class="content-box">
-      <h2>Songs that remind me of you! 🎵</h2>
-      <div class="song">
-        <div class="song-title">💜 Tahanan - El Manu</div>
-        <audio controls src="songs/song1.mp3"></audio>
-      </div>
-      <div class="song">
-        <div class="song-title">💜 Those Eyes - New West</div>
-        <audio controls src="songs/song2.mp3"></audio>
-      </div>
-      <div class="song">
-        <div class="song-title">💜 Best Part - Daniel Caesar</div>
-        <audio controls src="songs/song3.mp3"></audio>
-      </div>
+      <h2>Songs 🎵</h2>
     </div>
 
     <div id="notes" class="content-box">
       <h2>Notes 📝</h2>
       • Take care always!<br>
-      • Always eat on time.<br>
+      • Eat on time.<br>
       • Drive safe!
     </div>
 
     <div id="gallery" class="content-box">
-      <h2>Pictures of us 📸</h2>
+      <h2>Gallery 📸</h2>
       <div class="gallery-grid">
         <img src="images/img1.jpg" onclick="openLightbox(this)">
         <img src="images/img2.jpg" onclick="openLightbox(this)">
-        <img src="images/img3.jpg" onclick="openLightbox(this)">
-        <img src="images/img4.jpg" onclick="openLightbox(this)">
-        <img src="images/img5.jpg" onclick="openLightbox(this)">
-        <img src="images/img6.jpg" onclick="openLightbox(this)">
       </div>
     </div>
 
     <div id="proposal" class="content-box">
       <h2>Will you be my girlfriend? 💍</h2>
-
-      <div class="proposal-box" style="position:relative; height:160px;">
-        <button onclick="yes()">Yes 💜</button>
-        <button id="noBtn">No 🤍</button>
-      </div>
+      <button onclick="yes()">Yes 💜</button>
     </div>
 
     <div id="lockMsg" class="content-box" style="display:none;"></div>
@@ -242,14 +220,30 @@ canvas { position: fixed; top: 0; left: 0; pointer-events: none; }
   <h1>She said YES 💜</h1>
 </div>
 
-<div id="lightbox">
+<div id="lightbox" onclick="this.style.display='none'">
   <img id="lightbox-img">
 </div>
 
 <script>
 
-/* (NO LOGIC CHANGED — SAME AS YOUR ORIGINAL) */
+/* LOGIN FIXED */
+document.getElementById('enterBtn').addEventListener('click', function () {
+  const code = document.getElementById('code').value;
 
+  if (code === 'blueberry') {
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('welcome').style.display = 'block';
+
+    setTimeout(() => {
+      document.getElementById('welcome').style.display = 'none';
+      document.getElementById('mainPage').style.display = 'block';
+      type();
+      launchConfetti();
+    }, 2000);
+  }
+});
+
+/* LOCK SYSTEM */
 const unlockDays = {
   letter: 4,
   music: 0,
@@ -271,11 +265,10 @@ function getRemainingDays(id){
   const start = getStartTime();
   const unlockTime = start + (unlockDays[id] * 86400000);
   const diff = unlockTime - Date.now();
-  return Math.ceil(diff / (86400000));
+  return Math.ceil(diff / 86400000);
 }
 
 function show(id){
-
   const remaining = getRemainingDays(id);
 
   document.querySelectorAll('.content-box').forEach(x=>{
@@ -286,15 +279,68 @@ function show(id){
 
   if(remaining > 0){
     lockBox.style.display = "block";
-    lockBox.innerHTML = `
-      <h2>🔒 Locked</h2>
-      <p>Please come back in <b>${remaining}</b> day(s) bebi! 💜</p>
-    `;
+    lockBox.innerHTML = `<h2>🔒 Locked</h2><p>Come back in ${remaining} day(s)</p>`;
     return;
   }
 
   lockBox.style.display = "none";
   document.getElementById(id).style.display='block';
+}
+
+/* TYPEWRITER */
+function type(){
+  const text = "Hi love, you are my forever 💜";
+  let i = 0;
+
+  function t(){
+    if(i < text.length){
+      document.getElementById('typewriter').innerHTML += text[i++];
+      setTimeout(t, 40);
+    }
+  }
+  t();
+}
+
+/* YES */
+function yes(){
+  document.getElementById('cinematic').style.display='flex';
+}
+
+/* LIGHTBOX FIX */
+function openLightbox(img){
+  document.getElementById('lightbox').style.display='flex';
+  document.getElementById('lightbox-img').src = img.src;
+}
+
+/* CONFETTI */
+function launchConfetti(){
+  const c = document.getElementById('confetti');
+  const ctx = c.getContext('2d');
+  c.width = innerWidth;
+  c.height = innerHeight;
+
+  let p = Array.from({length:80},()=>({
+    x:Math.random()*c.width,
+    y:Math.random()*c.height,
+    r:Math.random()*5+2
+  }));
+
+  function d(){
+    ctx.clearRect(0,0,c.width,c.height);
+    ctx.fillStyle='#cdb4db';
+
+    p.forEach(o=>{
+      ctx.beginPath();
+      ctx.arc(o.x,o.y,o.r,0,Math.PI*2);
+      ctx.fill();
+      o.y += 2;
+      if(o.y > c.height) o.y = 0;
+    });
+
+    requestAnimationFrame(d);
+  }
+
+  d();
 }
 
 </script>
