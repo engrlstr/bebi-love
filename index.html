@@ -217,9 +217,15 @@ audio{width:100%;}
   </div>
 </div>
 
-<div id="proposal" class="content-box">
-  <h2>Will you be my girlfriend? 💍</h2>
-  <button onclick="yes()">Yes 💜</button>
+<div id="proposal" class="content-box" style="display:none;">
+      <h2>Will you be my girlfriend? 💍</h2>
+      <div class="proposal-box">
+        <button onclick="yes()">Yes 💜</button>
+        <button id="noBtn" onmouseover="runNo()">No 🤍</button>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <div id="locked" class="content-box">
