@@ -58,12 +58,6 @@ button {
   cursor: pointer;
 }
 
-button.locked {
-  background: #999 !important;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
 #mainPage { display: none; width: 100vw; height: 100vh; position: relative; z-index: 2; }
 
 .sidebar {
@@ -115,16 +109,9 @@ audio { width: 100%; }
   width: 100%;
   border-radius: 12px;
   cursor: pointer;
-  transition: transform 0.2s;
 }
 
-.gallery-grid img:hover { transform: scale(1.05); }
-
 .notes { text-align: left; line-height: 1.8; }
-
-.proposal-box { position: relative; height: 160px; }
-
-#noBtn { position: absolute; }
 
 #cinematic {
   display: none;
@@ -135,7 +122,6 @@ audio { width: 100%; }
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  text-align: center;
   z-index: 9999;
 }
 
@@ -164,25 +150,28 @@ canvas { position: fixed; top: 0; left: 0; pointer-events: none; }
 
 <canvas id="confetti"></canvas>
 
+<!-- LOGIN -->
 <div id="login" class="center-box">
   <h2>💜 Enter Secret Code</h2>
   <input id="code" type="password" placeholder="Enter code" />
   <button id="enterBtn">Enter</button>
 </div>
 
+<!-- WELCOME (RESTORED EXACTLY) -->
 <div id="welcome" class="center-box" style="display:none;">
   <h2>Welcome baby 💜</h2>
-  <p>You finally made it!</p>
+  <p>You finally made it! Naks alam ang secret code HAHAHAHAHA</p>
 </div>
 
+<!-- MAIN -->
 <div id="mainPage">
 
   <div class="sidebar">
-    <button onclick="show('letter')" data-id="letter">💌 Love Letter</button>
-    <button onclick="show('music')" data-id="music">🎵 Music</button>
-    <button onclick="show('notes')" data-id="notes">📝 Notes</button>
-    <button onclick="show('gallery')" data-id="gallery">📸 Gallery</button>
-    <button onclick="show('proposal')" data-id="proposal">💍 Question</button>
+    <button onclick="show('letter')">💌 Love Letter</button>
+    <button onclick="show('music')">🎵 Music</button>
+    <button onclick="show('notes')">📝 Notes</button>
+    <button onclick="show('gallery')">📸 Gallery</button>
+    <button onclick="show('proposal')">💍 Question</button>
   </div>
 
   <div class="content">
@@ -193,11 +182,23 @@ canvas { position: fixed; top: 0; left: 0; pointer-events: none; }
     </div>
 
     <div id="music" class="content-box" style="display:none;">
-      <h2>Songs 🎵</h2>
-      <div class="song"><div class="song-title">Tahanan</div><audio controls src="songs/song1.mp3"></audio></div>
-      <div class="song"><div class="song-title">Those Eyes</div><audio controls src="songs/song2.mp3"></audio></div>
-      <div class="song"><div class="song-title">Best Part</div><audio controls src="songs/song3.mp3"></audio></div>
-    </div>
+  <h2>Songs that remind me of you! 🎵</h2>
+
+  <div class="song">
+    <div class="song-title">💜 Tahanan - El Manu</div>
+    <audio controls src="songs/song1.mp3"></audio>
+  </div>
+
+  <div class="song">
+    <div class="song-title">💜 Those Eyes - New West</div>
+    <audio controls src="songs/song2.mp3"></audio>
+  </div>
+
+  <div class="song">
+    <div class="song-title">💜 Best Part - Daniel Caesar</div>
+    <audio controls src="songs/song3.mp3"></audio>
+  </div>
+</div>
 
     <div id="notes" class="content-box" style="display:none;">
       <h2>Notes 📝</h2>
@@ -207,20 +208,29 @@ canvas { position: fixed; top: 0; left: 0; pointer-events: none; }
     </div>
 
     <div id="gallery" class="content-box" style="display:none;">
-      <h2>Gallery 📸</h2>
-      <div class="gallery-grid">
-        <img src="images/img1.jpg" onclick="openLightbox(this)">
-        <img src="images/img2.jpg" onclick="openLightbox(this)">
-      </div>
-    </div>
+  <h2>Pictures of us 📸</h2>
+
+  <div class="gallery-grid">
+    <img src="images/img1.jpg" onclick="openLightbox(this)">
+    <img src="images/img2.jpg" onclick="openLightbox(this)">
+    <img src="images/img3.jpg" onclick="openLightbox(this)">
+    <img src="images/img4.jpg" onclick="openLightbox(this)">
+    <img src="images/img5.jpg" onclick="openLightbox(this)">
+    <img src="images/img6.jpg" onclick="openLightbox(this)">
+  </div>
+</div>
 
     <div id="proposal" class="content-box" style="display:none;">
-      <h2>Will you be my girlfriend? 💍</h2>
-      <div class="proposal-box">
-        <button onclick="yes()">Yes 💜</button>
-        <button id="noBtn" onmouseover="runNo()">No 🤍</button>
-      </div>
-    </div>
+  <h2>Will you be my girlfriend? 💍</h2>
+
+  <div class="proposal-box" style="position:relative; height:160px;">
+    <button onclick="yes()">Yes 💜</button>
+    <button id="noBtn">No 🤍</button>
+  </div>
+</div>
+
+    <!-- LOCK MESSAGE BOX -->
+    <div id="lockMsg" class="content-box" style="display:none;"></div>
 
   </div>
 </div>
@@ -236,15 +246,15 @@ canvas { position: fixed; top: 0; left: 0; pointer-events: none; }
 <script>
 
 /* =========================
-   💜 UNLOCK SYSTEM (ADDED)
+   💜 UNLOCK SYSTEM
 ========================= */
 
 const unlockDays = {
-  letter: 0,
+  letter: 4,
   music: 0,
-  notes: 2,
-  gallery: 4,
-  proposal: 6
+  notes: 3,
+  gallery: 2,
+  proposal: 4
 };
 
 function getStartTime(){
@@ -256,37 +266,44 @@ function getStartTime(){
   return parseInt(t);
 }
 
-function isUnlocked(id){
+function getRemainingDays(id){
   const start = getStartTime();
-  const days = unlockDays[id] ?? 0;
-  const unlockTime = start + (days * 24 * 60 * 60 * 1000);
-  return Date.now() >= unlockTime;
+  const unlockTime = start + (unlockDays[id] * 86400000);
+  const diff = unlockTime - Date.now();
+  return Math.ceil(diff / (86400000));
 }
 
-function applyLocks(){
-  document.querySelectorAll(".sidebar button").forEach(btn=>{
-    const id = btn.getAttribute("data-id");
-    if(!isUnlocked(id)){
-      btn.classList.add("locked");
-      btn.innerHTML += " 🔒";
-    }
-  });
-}
+/* =========================
+   SHOW SYSTEM (UPDATED)
+========================= */
 
-applyLocks();
-
-/* override show */
 function show(id){
-  if(!isUnlocked(id)){
-    alert("Locked 💜 Come back later...");
+
+  const remaining = getRemainingDays(id);
+
+  document.querySelectorAll('.content-box').forEach(x=>{
+    x.style.display='none';
+  });
+
+  const lockBox = document.getElementById("lockMsg");
+
+  if(remaining > 0){
+    lockBox.style.display = "block";
+    lockBox.innerHTML = `
+      <h2>🔒 Locked</h2>
+      <p>Please come back in <b>${remaining}</b> day(s) bebi! 💜</p>
+    `;
     return;
   }
 
-  document.querySelectorAll('.content-box').forEach(x=>x.style.display='none');
+  lockBox.style.display = "none";
   document.getElementById(id).style.display='block';
 }
 
-/* hearts */
+/* =========================
+   HEARTS
+========================= */
+
 for(let i=0;i<25;i++){
   let h=document.createElement('div');
   h.className='heart';
@@ -296,7 +313,10 @@ for(let i=0;i<25;i++){
   document.body.appendChild(h);
 }
 
-/* login */
+/* =========================
+   LOGIN
+========================= */
+
 function start(){
   const code=document.getElementById('code').value;
   if(code==='blueberry'){
@@ -314,7 +334,31 @@ function start(){
 
 document.getElementById('enterBtn').addEventListener('click',start);
 
-/* typewriter */
+  // NO KENESU
+  const noBtn = document.getElementById("noBtn");
+  const box = document.querySelector(".proposal-box");
+
+noBtn.addEventListener("mouseenter", moveNoButton);
+
+function moveNoButton(){
+  const boxRect = box.getBoundingClientRect();
+  const btnRect = noBtn.getBoundingClientRect();
+
+  const maxX = boxRect.width - btnRect.width;
+  const maxY = boxRect.height - btnRect.height;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  noBtn.style.position = "absolute";
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+  
+/* =========================
+   TYPEWRITER
+========================= */
+
 function type(){
   const text="Hi love, you are my forever 💜";
   let i=0;
@@ -327,29 +371,12 @@ function type(){
   t();
 }
 
-/* yes */
+/* YES */
 function yes(){
   document.getElementById('cinematic').style.display='flex';
 }
 
-/* no button */
-function runNo(){
-  const b=document.getElementById('noBtn');
-  b.style.left=Math.random()*200+'px';
-  b.style.top=Math.random()*120+'px';
-}
-
-/* lightbox */
-function openLightbox(img){
-  document.getElementById('lightbox').style.display='flex';
-  document.getElementById('lightbox-img').src=img.src;
-}
-
-document.getElementById('lightbox').onclick=()=>{
-  document.getElementById('lightbox').style.display='none';
-};
-
-/* confetti */
+/* CONFETTI */
 function launchConfetti(){
   const c=document.getElementById('confetti');
   const ctx=c.getContext('2d');
