@@ -125,7 +125,6 @@ audio{width:100%;}
   font-size:30px;
 }
 
-/* LIGHTBOX */
 #lightbox{
   display:none;
   position:fixed;
@@ -142,7 +141,6 @@ audio{width:100%;}
   max-height:90%;
 }
 
-/* PROPOSAL FIX */
 .proposal-box{
   position:relative;
   height:120px;
@@ -238,6 +236,12 @@ audio{width:100%;}
 </div>
 </div>
 
+<!-- LOCK SCREEN -->
+<div id="locked" class="center-box" style="display:none;">
+  <h2>💜 Locked</h2>
+  <p id="lockMsg"></p>
+</div>
+
 <div id="cinematic">She said YES 💜</div>
 
 <div id="lightbox">
@@ -246,7 +250,10 @@ audio{width:100%;}
 
 <script>
 
-// DATE SYSTEM (FIXED)
+/* =======================
+   DATE SYSTEM (FIXED)
+======================= */
+
 const startDate = new Date("2026-05-05T00:00:00");
 
 const unlockDays = {
@@ -259,24 +266,34 @@ const unlockDays = {
 function getDay(){
   const now = new Date();
 
-  // normalize both dates to midnight to avoid time bugs
-  const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const start = new Date(
+    startDate.getFullYear(),
+    startDate.getMonth(),
+    startDate.getDate()
+  );
+
+  const today = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate()
+  );
 
   const diffTime = today - start;
   return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
 }
 
-// NAVIGATION (FIXED LOCK SYSTEM)
+/* =======================
+   NAVIGATION (LOCK FIXED)
+======================= */
+
 function show(id){
   const today = getDay();
 
-  document.querySelectorAll('.content-box').forEach(x => x.style.display = 'none');
+  document.querySelectorAll('.content-box')
+    .forEach(x => x.style.display = 'none');
 
-  // check if section is locked
   if (unlockDays[id] !== undefined && today < unlockDays[id]) {
-    const locked = document.getElementById('locked');
-    locked.style.display = 'block';
+    document.getElementById('locked').style.display = 'block';
     document.getElementById('lockMsg').innerText =
       `Come back in ${unlockDays[id] - today} day(s) 💜`;
     return;
@@ -284,8 +301,11 @@ function show(id){
 
   document.getElementById(id).style.display = 'block';
 }
-  
-// START LOGIN FIXED
+
+/* =======================
+   LOGIN
+======================= */
+
 function start(){
   const code = document.getElementById('code').value;
 
@@ -302,15 +322,12 @@ function start(){
   }
 }
 
-// NAVIGATION
-function show(id){
-  document.querySelectorAll('.content-box').forEach(x=>x.style.display='none');
-  document.getElementById(id).style.display='block';
-}
+/* =======================
+   TYPEWRITER
+======================= */
 
-// TYPEWRITER FIXED
 function type(){
-  const text = "Hi love, you are my forever. I don’t even know how to properly explain what you do to me, but every time I think of you, everything feels lighter. You became my peace in the middle of chaos, and I honestly didn’t expect someone like you to make my life feel this soft and warm. I hope you always know how much you mean to me, even in the simplest days when nothing special is happening. There are moments when I just sit quietly and realize how lucky I am that our paths crossed. You make ordinary days feel special without even trying. Your presence alone feels like home, and I find myself smiling at random times just thinking about you. If I could pause time, I would probably stay in every moment we laugh, talk, or even just exist together. No matter what happens in the future, I want you to remember that I’ll always be here for you. I will choose you again and again, even in the smallest ways. You are my favorite person, my safe place, and my always. I love you more than I know how to say, but I hope you feel it in everything I do. 💜";
+  const text = "Hi love, you are my forever. I love you 💜";
   let i = 0;
 
   function t(){
@@ -322,7 +339,10 @@ function type(){
   t();
 }
 
-// LIGHTBOX
+/* =======================
+   LIGHTBOX
+======================= */
+
 function openLightbox(img){
   document.getElementById('lightbox').style.display='flex';
   document.getElementById('lightbox-img').src = img.src;
@@ -332,12 +352,18 @@ document.getElementById('lightbox').onclick = ()=>{
   document.getElementById('lightbox').style.display='none';
 };
 
-// YES
+/* =======================
+   YES BUTTON
+======================= */
+
 function yes(){
   document.getElementById('cinematic').style.display='flex';
 }
 
-// ❌ NO BUTTON RUN AWAY FIX
+/* =======================
+   NO BUTTON RUN AWAY
+======================= */
+
 function runNo(){
   const btn = document.getElementById('noBtn');
   const box = document.querySelector('.proposal-box');
@@ -352,7 +378,10 @@ function runNo(){
   btn.style.top = y + 'px';
 }
 
-// HEARTS
+/* =======================
+   HEARTS
+======================= */
+
 for(let i=0;i<25;i++){
   let h=document.createElement('div');
   h.className='heart';
