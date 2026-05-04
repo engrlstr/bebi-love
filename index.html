@@ -2,127 +2,141 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>For My Darling 💜</title>
 
 <style>
 html, body {
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #eafaf5, #f3e6ff);
+  margin:0;
+  padding:0;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  font-family:'Segoe UI', sans-serif;
+  background:linear-gradient(135deg,#eafaf5,#f3e6ff);
 }
 
-* { box-sizing: border-box; }
+*{box-sizing:border-box;}
 
-.heart {
-  position: absolute;
-  color: rgba(170, 120, 200, 0.5);
-  font-size: 18px;
-  animation: float 6s linear infinite;
+.heart{
+  position:absolute;
+  color:rgba(170,120,200,0.5);
+  font-size:18px;
+  animation:float 6s linear infinite;
 }
-@keyframes float {
-  0% { transform: translateY(100vh); opacity: 0; }
-  50% { opacity: 1; }
-  100% { transform: translateY(-10vh); opacity: 0; }
-}
-
-.center-box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 30px;
-  border-radius: 20px;
-  text-align: center;
-  width: 320px;
+@keyframes float{
+  0%{transform:translateY(100vh);opacity:0;}
+  50%{opacity:1;}
+  100%{transform:translateY(-10vh);opacity:0;}
 }
 
-input, button {
-  padding: 10px;
-  border-radius: 10px;
-  margin-top: 10px;
-  border: none;
+.center-box{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
+  width:320px;
 }
 
-button {
-  background: #cdb4db;
-  color: white;
-  cursor: pointer;
+input,button{
+  padding:10px;
+  border-radius:10px;
+  margin-top:10px;
+  border:none;
 }
 
-#mainPage {
-  display: none;
+button{
+  background:#cdb4db;
+  color:white;
+  cursor:pointer;
 }
 
-.sidebar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100vh;
-  width: 180px;
-  background: rgba(255,255,255,0.4);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
+#mainPage{display:none;}
+
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  height:100vh;
+  width:180px;
+  background:rgba(255,255,255,0.4);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
 }
 
-.sidebar button { width: 140px; }
+.sidebar button{width:140px;}
 
-.content {
-  margin-left: 180px;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.content{
+  margin-left:180px;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-.content-box {
-  background: white;
-  padding: 20px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 600px;
-  text-align: center;
-  display: none;
+.content-box{
+  display:none;
+  background:white;
+  padding:20px;
+  border-radius:20px;
+  width:90%;
+  max-width:600px;
+  text-align:center;
 }
 
-.notes { text-align:left; }
-
-.proposal-box { position: relative; height: 160px; }
-#noBtn { position: absolute; }
-
-#cinematic {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #f3e6ff;
-  justify-content: center;
-  align-items: center;
-  font-size: 30px;
+.song{
+  margin:10px 0;
+  padding:10px;
+  background:#f7f0ff;
+  border-radius:10px;
 }
 
-#lightbox {
-  display: none;
-  position: fixed;
+.song-title{font-weight:bold;}
+audio{width:100%;}
+
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.gallery-grid img{
+  width:100%;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+#cinematic{
+  display:none;
+  position:fixed;
   top:0;
   left:0;
   width:100%;
   height:100%;
-  background: rgba(0,0,0,0.9);
+  background:#f3e6ff;
+  justify-content:center;
+  align-items:center;
+  font-size:30px;
+}
+
+#lightbox{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.9);
   justify-content:center;
   align-items:center;
 }
-#lightbox img {
+#lightbox img{
   max-width:90%;
   max-height:90%;
 }
@@ -134,57 +148,79 @@ button {
 <!-- LOGIN -->
 <div id="login" class="center-box">
   <h2>💜 Enter Secret Code</h2>
-  <input id="code" type="password" />
+  <input id="code" type="password"/>
   <button onclick="start()">Enter</button>
+</div>
+
+<!-- WELCOME -->
+<div id="welcome" class="center-box" style="display:none;">
+  <h2>Welcome baby 💜</h2>
+  <p>You finally made it! Naks alam ang secret code HAHAHA 💜</p>
 </div>
 
 <!-- MAIN -->
 <div id="mainPage">
 
-  <div class="sidebar">
-    <button onclick="show('letter')">💌 Love Letter</button>
-    <button onclick="show('music')">🎵 Music</button>
-    <button onclick="show('notes')">📝 Notes</button>
-    <button onclick="show('gallery')">📸 Gallery</button>
-    <button onclick="show('proposal')">💍 Question</button>
+<div class="sidebar">
+  <button onclick="show('letter')">💌 Love Letter</button>
+  <button onclick="show('music')">🎵 Music</button>
+  <button onclick="show('notes')">📝 Notes</button>
+  <button onclick="show('gallery')">📸 Gallery</button>
+  <button onclick="show('proposal')">💍 Question</button>
+</div>
+
+<div class="content">
+
+<div id="letter" class="content-box">
+  <h2>Love Letter 💜</h2>
+  <p id="typewriter"></p>
+</div>
+
+<div id="music" class="content-box">
+  <h2>Songs that remind me of you 🎵</h2>
+
+  <div class="song">
+    <div class="song-title">💜 Tahanan - El Manu</div>
+    <audio controls src="songs/song1.mp3"></audio>
   </div>
 
-  <div class="content">
-
-    <div id="letter" class="content-box">
-      <h2>Love Letter 💜</h2>
-      <p id="typewriter"></p>
-    </div>
-
-    <div id="music" class="content-box">
-      <h2>Music 🎵</h2>
-    </div>
-
-    <div id="notes" class="content-box">
-      <h2>Notes 📝</h2>
-      <p>Take care always 💜</p>
-    </div>
-
-    <div id="gallery" class="content-box">
-      <h2>Gallery 📸</h2>
-      <img src="images/img1.jpg" width="100" onclick="openLightbox(this)">
-    </div>
-
-    <div id="proposal" class="content-box">
-      <h2>Will you be my girlfriend? 💍</h2>
-      <div class="proposal-box">
-        <button onclick="yes()">Yes 💜</button>
-        <button id="noBtn" onmouseover="runNo()">No 🤍</button>
-      </div>
-    </div>
-
-    <!-- LOCK BOX -->
-    <div id="locked" class="content-box">
-      <h2>💜 Locked</h2>
-      <p id="lockMsg"></p>
-    </div>
-
+  <div class="song">
+    <div class="song-title">💜 Those Eyes - New West</div>
+    <audio controls src="songs/song2.mp3"></audio>
   </div>
+
+  <div class="song">
+    <div class="song-title">💜 Best Part - Daniel Caesar</div>
+    <audio controls src="songs/song3.mp3"></audio>
+  </div>
+
+</div>
+
+<div id="notes" class="content-box">
+  <h2>Notes 📝</h2>
+  <p>Take care always 💜</p>
+</div>
+
+<div id="gallery" class="content-box">
+  <h2>Gallery 📸</h2>
+  <div class="gallery-grid">
+    <img src="images/img1.jpg" onclick="openLightbox(this)">
+    <img src="images/img2.jpg" onclick="openLightbox(this)">
+    <img src="images/img3.jpg" onclick="openLightbox(this)">
+  </div>
+</div>
+
+<div id="proposal" class="content-box">
+  <h2>Will you be my girlfriend? 💍</h2>
+  <button onclick="yes()">Yes 💜</button>
+</div>
+
+<div id="locked" class="content-box">
+  <h2>💜 Locked</h2>
+  <p id="lockMsg"></p>
+</div>
+
+</div>
 </div>
 
 <div id="cinematic">She said YES 💜</div>
@@ -195,47 +231,48 @@ button {
 
 <script>
 
-// START DATE
+// DATE SYSTEM
 const startDate = new Date("2026-05-05");
 
-// UNLOCK DAYS
 const unlockDays = {
-  gallery: 1,
-  notes: 2,
-  letter: 3,
-  proposal: 4
+  gallery:1,
+  notes:2,
+  letter:3,
+  proposal:4
 };
 
-// GET CURRENT DAY
-function getDayNumber(){
-  const today = new Date();
-  const diff = today - startDate;
-  return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
+function getDay(){
+  return Math.floor((new Date()-startDate)/(1000*60*60*24))+1;
 }
 
-// SHOW FUNCTION
+// NAVIGATION
 function show(id){
-  const currentDay = getDayNumber();
+  const today=getDay();
 
   document.querySelectorAll('.content-box').forEach(x=>x.style.display='none');
 
-  if(unlockDays[id] && currentDay < unlockDays[id]){
-    document.getElementById('locked').style.display = 'block';
+  if(unlockDays[id] && today < unlockDays[id]){
+    document.getElementById('locked').style.display='block';
     document.getElementById('lockMsg').innerText =
-      `Come back in ${unlockDays[id] - currentDay} day(s) 💜`;
+      `Come back in ${unlockDays[id]-today} day(s) 💜`;
     return;
   }
 
   document.getElementById(id).style.display='block';
 }
 
-// LOGIN
+// LOGIN FLOW
 function start(){
-  if(document.getElementById('code').value === 'darling'){
-    document.getElementById('login').style.display='none';
-    document.getElementById('mainPage').style.display='block';
-    show('letter');
-    type();
+  if(document.getElementById('code').value==='darling'){
+    login.style.display='none';
+    welcome.style.display='block';
+
+    setTimeout(()=>{
+      welcome.style.display='none';
+      mainPage.style.display='block';
+      show('letter');
+      type();
+    },2000);
   }
 }
 
@@ -245,7 +282,7 @@ function type(){
   let i=0;
   function t(){
     if(i<text.length){
-      document.getElementById('typewriter').innerHTML+=text[i++];
+      typewriter.innerHTML+=text[i++];
       setTimeout(t,40);
     }
   }
@@ -254,27 +291,18 @@ function type(){
 
 // LIGHTBOX
 function openLightbox(img){
-  document.getElementById('lightbox').style.display='flex';
+  lightbox.style.display='flex';
   document.getElementById('lightbox-img').src=img.src;
 }
-document.getElementById('lightbox').onclick=()=>{
-  document.getElementById('lightbox').style.display='none';
-}
-
-// NO BUTTON
-function runNo(){
-  const b=document.getElementById('noBtn');
-  b.style.left=Math.random()*200+'px';
-  b.style.top=Math.random()*120+'px';
-}
+lightbox.onclick=()=>lightbox.style.display='none';
 
 // YES
 function yes(){
-  document.getElementById('cinematic').style.display='flex';
+  cinematic.style.display='flex';
 }
 
 // HEARTS
-for(let i=0;i<20;i++){
+for(let i=0;i<25;i++){
   let h=document.createElement('div');
   h.className='heart';
   h.innerHTML='💜';
