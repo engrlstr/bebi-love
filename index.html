@@ -92,7 +92,6 @@ button {
   padding: 20px;
 }
 
-/* ✅ FIX */
 .content-box {
   display: none;
   background: white;
@@ -163,10 +162,10 @@ canvas { position: fixed; top: 0; left: 0; pointer-events: none; }
   <button id="enterBtn">Enter</button>
 </div>
 
-<!-- WELCOME -->
+<!-- WELCOME (RESTORED EXACTLY) -->
 <div id="welcome" class="center-box" style="display:none;">
   <h2>Welcome baby 💜</h2>
-  <p>You finally made it!</p>
+  <p>You finally made it! Naks alam ang secret code HAHAHAHAHA</p>
 </div>
 
 <!-- MAIN -->
@@ -187,22 +186,44 @@ canvas { position: fixed; top: 0; left: 0; pointer-events: none; }
       <p id="typewriter"></p>
     </div>
 
+    <!-- MUSIC RESTORED -->
     <div id="music" class="content-box">
-      <h2>Songs 🎵</h2>
+      <h2>Songs that remind me of you! 🎵</h2>
+
+      <div class="song">
+        <div class="song-title">💜 Tahanan - El Manu</div>
+        <audio controls src="songs/song1.mp3"></audio>
+      </div>
+
+      <div class="song">
+        <div class="song-title">💜 Those Eyes - New West</div>
+        <audio controls src="songs/song2.mp3"></audio>
+      </div>
+
+      <div class="song">
+        <div class="song-title">💜 Best Part - Daniel Caesar</div>
+        <audio controls src="songs/song3.mp3"></audio>
+      </div>
     </div>
 
     <div id="notes" class="content-box">
       <h2>Notes 📝</h2>
       • Take care always!<br>
-      • Eat on time.<br>
+      • Always eat on time.<br>
       • Drive safe!
     </div>
 
+    <!-- GALLERY RESTORED (6 IMAGES) -->
     <div id="gallery" class="content-box">
-      <h2>Gallery 📸</h2>
+      <h2>Pictures of us 📸</h2>
+
       <div class="gallery-grid">
         <img src="images/img1.jpg" onclick="openLightbox(this)">
         <img src="images/img2.jpg" onclick="openLightbox(this)">
+        <img src="images/img3.jpg" onclick="openLightbox(this)">
+        <img src="images/img4.jpg" onclick="openLightbox(this)">
+        <img src="images/img5.jpg" onclick="openLightbox(this)">
+        <img src="images/img6.jpg" onclick="openLightbox(this)">
       </div>
     </div>
 
@@ -226,7 +247,7 @@ canvas { position: fixed; top: 0; left: 0; pointer-events: none; }
 
 <script>
 
-/* LOGIN FIXED */
+/* ENTER FIX */
 document.getElementById('enterBtn').addEventListener('click', function () {
   const code = document.getElementById('code').value;
 
@@ -291,7 +312,6 @@ function show(id){
 function type(){
   const text = "Hi love, you are my forever 💜";
   let i = 0;
-
   function t(){
     if(i < text.length){
       document.getElementById('typewriter').innerHTML += text[i++];
@@ -306,7 +326,7 @@ function yes(){
   document.getElementById('cinematic').style.display='flex';
 }
 
-/* LIGHTBOX FIX */
+/* LIGHTBOX */
 function openLightbox(img){
   document.getElementById('lightbox').style.display='flex';
   document.getElementById('lightbox-img').src = img.src;
@@ -314,12 +334,12 @@ function openLightbox(img){
 
 /* CONFETTI */
 function launchConfetti(){
-  const c = document.getElementById('confetti');
-  const ctx = c.getContext('2d');
-  c.width = innerWidth;
-  c.height = innerHeight;
+  const c=document.getElementById('confetti');
+  const ctx=c.getContext('2d');
+  c.width=innerWidth;
+  c.height=innerHeight;
 
-  let p = Array.from({length:80},()=>({
+  let p=Array.from({length:80},()=>({
     x:Math.random()*c.width,
     y:Math.random()*c.height,
     r:Math.random()*5+2
@@ -333,8 +353,8 @@ function launchConfetti(){
       ctx.beginPath();
       ctx.arc(o.x,o.y,o.r,0,Math.PI*2);
       ctx.fill();
-      o.y += 2;
-      if(o.y > c.height) o.y = 0;
+      o.y+=2;
+      if(o.y>c.height)o.y=0;
     });
 
     requestAnimationFrame(d);
