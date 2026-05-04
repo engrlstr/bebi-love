@@ -246,19 +246,44 @@ audio{width:100%;}
 
 <script>
 
- // DATE SYSTEM
-const startDate = new Date("2026-05-05");
+// DATE SYSTEM (FIXED)
+const startDate = new Date("2026-05-05T00:00:00");
 
 const unlockDays = {
-  gallery:2,
-  notes:3,
-  letter:4,
-  proposal:4
+  gallery: 2,
+  notes: 3,
+  letter: 4,
+  proposal: 4
 };
 
 function getDay(){
-  return Math.floor((new Date()-startDate)/(1000*60*60*24))+1;
-} 
+  const now = new Date();
+
+  // normalize both dates to midnight to avoid time bugs
+  const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  const diffTime = today - start;
+  return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+}
+
+// NAVIGATION (FIXED LOCK SYSTEM)
+function show(id){
+  const today = getDay();
+
+  document.querySelectorAll('.content-box').forEach(x => x.style.display = 'none');
+
+  // check if section is locked
+  if (unlockDays[id] !== undefined && today < unlockDays[id]) {
+    const locked = document.getElementById('locked');
+    locked.style.display = 'block';
+    document.getElementById('lockMsg').innerText =
+      `Come back in ${unlockDays[id] - today} day(s) 💜`;
+    return;
+  }
+
+  document.getElementById(id).style.display = 'block';
+}
   
 // START LOGIN FIXED
 function start(){
