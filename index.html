@@ -17,9 +17,7 @@ html, body {
   cursor: url('cursor.cur'), auto;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 .heart {
   position: absolute;
@@ -60,13 +58,13 @@ button {
   cursor: pointer;
 }
 
-#mainPage {
-  display: none;
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  z-index: 2;
+button.locked {
+  background: #999 !important;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
+
+#mainPage { display: none; width: 100vw; height: 100vh; position: relative; z-index: 2; }
 
 .sidebar {
   position: fixed;
@@ -83,9 +81,7 @@ button {
   z-index: 3;
 }
 
-.sidebar button {
-  width: 140px;
-}
+.sidebar button { width: 140px; }
 
 .content {
   margin-left: 180px;
@@ -105,20 +101,9 @@ button {
   text-align: center;
 }
 
-.song {
-  margin: 10px 0;
-  padding: 10px;
-  background: #f7f0ff;
-  border-radius: 10px;
-}
-
-.song-title {
-  font-weight: bold;
-}
-
-audio {
-  width: 100%;
-}
+.song { margin: 10px 0; padding: 10px; background: #f7f0ff; border-radius: 10px; }
+.song-title { font-weight: bold; }
+audio { width: 100%; }
 
 .gallery-grid {
   display: grid;
@@ -133,31 +118,19 @@ audio {
   transition: transform 0.2s;
 }
 
-.gallery-grid img:hover {
-  transform: scale(1.05);
-}
+.gallery-grid img:hover { transform: scale(1.05); }
 
-.notes {
-  text-align: left;
-  line-height: 1.8;
-}
+.notes { text-align: left; line-height: 1.8; }
 
-.proposal-box {
-  position: relative;
-  height: 160px;
-}
+.proposal-box { position: relative; height: 160px; }
 
-#noBtn {
-  position: absolute;
-}
+#noBtn { position: absolute; }
 
 #cinematic {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
   background: linear-gradient(135deg,#e6ccff,#f3e6ff);
   justify-content: center;
   align-items: center;
@@ -166,21 +139,13 @@ audio {
   z-index: 9999;
 }
 
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-}
+canvas { position: fixed; top: 0; left: 0; pointer-events: none; }
 
-/* LIGHTBOX */
 #lightbox {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
   background: rgba(0,0,0,0.9);
   justify-content: center;
   align-items: center;
@@ -191,11 +156,6 @@ canvas {
   max-width: 90%;
   max-height: 90%;
   border-radius: 15px;
-  transition: transform 0.3s ease;
-}
-
-#lightbox img:active {
-  transform: scale(0.95);
 }
 </style>
 </head>
@@ -204,28 +164,25 @@ canvas {
 
 <canvas id="confetti"></canvas>
 
-<!-- LOGIN -->
 <div id="login" class="center-box">
   <h2>💜 Enter Secret Code</h2>
   <input id="code" type="password" placeholder="Enter code" />
   <button id="enterBtn">Enter</button>
 </div>
 
-<!-- WELCOME -->
 <div id="welcome" class="center-box" style="display:none;">
   <h2>Welcome baby 💜</h2>
-  <p>You finally made it! Naks alam ang secret code HAHAHAHAHA</p>
+  <p>You finally made it!</p>
 </div>
 
-<!-- MAIN -->
 <div id="mainPage">
 
   <div class="sidebar">
-    <button onclick="show('letter')">💌 Love Letter</button>
-    <button onclick="show('music')">🎵 Music</button>
-    <button onclick="show('notes')">📝 Notes</button>
-    <button onclick="show('gallery')">📸 Gallery</button>
-    <button onclick="show('proposal')">💍 Question</button>
+    <button onclick="show('letter')" data-id="letter">💌 Love Letter</button>
+    <button onclick="show('music')" data-id="music">🎵 Music</button>
+    <button onclick="show('notes')" data-id="notes">📝 Notes</button>
+    <button onclick="show('gallery')" data-id="gallery">📸 Gallery</button>
+    <button onclick="show('proposal')" data-id="proposal">💍 Question</button>
   </div>
 
   <div class="content">
@@ -236,42 +193,24 @@ canvas {
     </div>
 
     <div id="music" class="content-box" style="display:none;">
-      <h2>Songs that reminds me of you 🎵</h2>
-
-      <div class="song">
-        <div class="song-title">💜 Tahanan - El Manu</div>
-        <audio controls src="songs/song1.mp3"></audio>
-      </div>
-
-      <div class="song">
-        <div class="song-title">💜 Those Eyes - New West</div>
-        <audio controls src="songs/song2.mp3"></audio>
-      </div>
-
-      <div class="song">
-        <div class="song-title">💜 Best Part - Daniel Caesar</div>
-        <audio controls src="songs/song3.mp3"></audio>
-      </div>
+      <h2>Songs 🎵</h2>
+      <div class="song"><div class="song-title">Tahanan</div><audio controls src="songs/song1.mp3"></audio></div>
+      <div class="song"><div class="song-title">Those Eyes</div><audio controls src="songs/song2.mp3"></audio></div>
+      <div class="song"><div class="song-title">Best Part</div><audio controls src="songs/song3.mp3"></audio></div>
     </div>
 
     <div id="notes" class="content-box" style="display:none;">
       <h2>Notes 📝</h2>
-      <div class="notes">
-        • Take care always!<br>
-        • Always eat on time.<br>
-        • Drive safe!
-      </div>
+      • Take care always!<br>
+      • Always eat on time.<br>
+      • Drive safe!
     </div>
 
     <div id="gallery" class="content-box" style="display:none;">
-      <h2>Our pictures together 📸</h2>
+      <h2>Gallery 📸</h2>
       <div class="gallery-grid">
         <img src="images/img1.jpg" onclick="openLightbox(this)">
         <img src="images/img2.jpg" onclick="openLightbox(this)">
-        <img src="images/img3.jpg" onclick="openLightbox(this)">
-        <img src="images/img4.jpg" onclick="openLightbox(this)">
-        <img src="images/img5.jpg" onclick="openLightbox(this)">
-        <img src="images/img6.jpg" onclick="openLightbox(this)">
       </div>
     </div>
 
@@ -295,7 +234,59 @@ canvas {
 </div>
 
 <script>
-// hearts
+
+/* =========================
+   💜 UNLOCK SYSTEM (ADDED)
+========================= */
+
+const unlockDays = {
+  letter: 0,
+  music: 0,
+  notes: 2,
+  gallery: 4,
+  proposal: 6
+};
+
+function getStartTime(){
+  let t = localStorage.getItem("startTime");
+  if(!t){
+    t = Date.now();
+    localStorage.setItem("startTime", t);
+  }
+  return parseInt(t);
+}
+
+function isUnlocked(id){
+  const start = getStartTime();
+  const days = unlockDays[id] ?? 0;
+  const unlockTime = start + (days * 24 * 60 * 60 * 1000);
+  return Date.now() >= unlockTime;
+}
+
+function applyLocks(){
+  document.querySelectorAll(".sidebar button").forEach(btn=>{
+    const id = btn.getAttribute("data-id");
+    if(!isUnlocked(id)){
+      btn.classList.add("locked");
+      btn.innerHTML += " 🔒";
+    }
+  });
+}
+
+applyLocks();
+
+/* override show */
+function show(id){
+  if(!isUnlocked(id)){
+    alert("Locked 💜 Come back later...");
+    return;
+  }
+
+  document.querySelectorAll('.content-box').forEach(x=>x.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+
+/* hearts */
 for(let i=0;i<25;i++){
   let h=document.createElement('div');
   h.className='heart';
@@ -305,25 +296,7 @@ for(let i=0;i<25;i++){
   document.body.appendChild(h);
 }
 
-// navigation
-function show(id){
-  document.querySelectorAll('.content-box').forEach(x=>x.style.display='none');
-  document.getElementById(id).style.display='block';
-}
-
-// no button
-function runNo(){
-  const b=document.getElementById('noBtn');
-  b.style.left=Math.random()*200+'px';
-  b.style.top=Math.random()*120+'px';
-}
-
-// yes
-function yes(){
-  document.getElementById('cinematic').style.display='flex';
-}
-
-// login
+/* login */
 function start(){
   const code=document.getElementById('code').value;
   if(code==='blueberry'){
@@ -340,9 +313,8 @@ function start(){
 }
 
 document.getElementById('enterBtn').addEventListener('click',start);
-document.getElementById('code').addEventListener('keydown',(e)=>{if(e.key==='Enter')start();});
 
-// typewriter
+/* typewriter */
 function type(){
   const text="Hi love, you are my forever 💜";
   let i=0;
@@ -355,7 +327,19 @@ function type(){
   t();
 }
 
-// lightbox
+/* yes */
+function yes(){
+  document.getElementById('cinematic').style.display='flex';
+}
+
+/* no button */
+function runNo(){
+  const b=document.getElementById('noBtn');
+  b.style.left=Math.random()*200+'px';
+  b.style.top=Math.random()*120+'px';
+}
+
+/* lightbox */
 function openLightbox(img){
   document.getElementById('lightbox').style.display='flex';
   document.getElementById('lightbox-img').src=img.src;
@@ -365,7 +349,7 @@ document.getElementById('lightbox').onclick=()=>{
   document.getElementById('lightbox').style.display='none';
 };
 
-// confetti
+/* confetti */
 function launchConfetti(){
   const c=document.getElementById('confetti');
   const ctx=c.getContext('2d');
@@ -395,6 +379,7 @@ function launchConfetti(){
 
   d();
 }
+
 </script>
 
 </body>
