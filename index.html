@@ -141,7 +141,6 @@ audio { width: 100%; }
 
 canvas { position: fixed; top:0; left:0; pointer-events:none; }
 
-/* LIGHTBOX */
 #lightbox {
   display: none;
   position: fixed;
@@ -158,10 +157,6 @@ canvas { position: fixed; top:0; left:0; pointer-events:none; }
   max-width: 90%;
   max-height: 90%;
   border-radius: 15px;
-  transition: transform 0.3s ease;
-}
-#lightbox img:active {
-  transform: scale(0.95);
 }
 </style>
 </head>
@@ -170,135 +165,112 @@ canvas { position: fixed; top:0; left:0; pointer-events:none; }
 
 <canvas id="confetti"></canvas>
 
-<!-- LOGIN -->
 <div id="login" class="center-box">
   <h2>💜 Enter Secret Code</h2>
   <input id="code" type="password" placeholder="Enter code" />
   <button id="enterBtn">Enter</button>
 </div>
 
-<!-- WELCOME -->
 <div id="welcome" class="center-box" style="display:none;">
   <h2>Welcome baby 💜</h2>
-  <p>You finally made it! Naks alam ang secret code HAHAHAHAHA</p>
+  <p>You finally made it! 💜</p>
 </div>
 
-<!-- MAIN -->
 <div id="mainPage">
 
-  <div class="sidebar">
-    <button onclick="show('letter')">💌 Love Letter</button>
-    <button onclick="show('music')">🎵 Music</button>
-    <button onclick="show('notes')">📝 Notes</button>
-    <button onclick="show('gallery')">📸 Gallery</button>
-    <button onclick="show('proposal')">💍 Question</button>
-  </div>
+<div class="sidebar">
+  <button onclick="show('letter')">💌 Love Letter</button>
+  <button onclick="show('music')">🎵 Music</button>
+  <button onclick="show('notes')">📝 Notes</button>
+  <button onclick="show('gallery')">📸 Gallery</button>
+  <button onclick="show('proposal')">💍 Question</button>
+</div>
 
-  <div class="content">
+<div class="content">
 
-    <div id="letter" class="content-box">
-      <h2>Love Letter 💜</h2>
-      <p id="typewriter"></p>
-    </div>
+<div id="letter" class="content-box">
+  <h2>Love Letter 💜</h2>
+  <p id="typewriter"></p>
+</div>
 
-    <div id="music" class="content-box" style="display:none;">
-      <h2>Songs that reminds me of you 🎵</h2>
-      <div class="song"><div class="song-title">💜 Tahanan - El Manu</div><audio controls src="songs/song1.mp3"></audio></div>
-      <div class="song"><div class="song-title">💜 Those Eyes - New West</div><audio controls src="songs/song2.mp3"></audio></div>
-      <div class="song"><div class="song-title">💜 Best Part - Daniel Caesar</div><audio controls src="songs/song3.mp3"></audio></div>
-    </div>
+<div id="music" class="content-box" style="display:none;">
+  <h2>Songs that reminds me of you 🎵</h2>
+  <div class="song"><div class="song-title">💜 Tahanan - El Manu</div><audio controls src="songs/song1.mp3"></audio></div>
+  <div class="song"><div class="song-title">💜 Those Eyes - New West</div><audio controls src="songs/song2.mp3"></audio></div>
+  <div class="song"><div class="song-title">💜 Best Part - Daniel Caesar</div><audio controls src="songs/song3.mp3"></audio></div>
+</div>
 
-    <div id="notes" class="content-box" style="display:none;">
-      <h2>Notes 📝</h2>
-      <div class="notes">
-        • Take care always!<br>
-        • Always eat on time.<br>
-        • Drive safe!
-      </div>
-    </div>
+<div id="notes" class="content-box" style="display:none;">
+  <h2>Notes 📝</h2>
+  <div class="notes">Take care always 💜</div>
+</div>
 
-    <div id="gallery" class="content-box" style="display:none;">
-      <h2>Our pictures together 📸</h2>
-      <div class="gallery-grid">
-        <img src="images/img1.jpg" onclick="openLightbox(this)">
-        <img src="images/img2.jpg" onclick="openLightbox(this)">
-        <img src="images/img3.jpg" onclick="openLightbox(this)">
-        <img src="images/img4.jpg" onclick="openLightbox(this)">
-        <img src="images/img5.jpg" onclick="openLightbox(this)">
-        <img src="images/img6.jpg" onclick="openLightbox(this)">
-      </div>
-    </div>
-
-    <div id="proposal" class="content-box" style="display:none;">
-      <h2>Will you be my girlfriend? 💍</h2>
-      <div class="proposal-box">
-        <button onclick="yes()">Yes 💜</button>
-        <button id="noBtn" onmouseover="runNo()">No 🤍</button>
-      </div>
-    </div>
-
+<div id="gallery" class="content-box" style="display:none;">
+  <h2>Our pictures 📸</h2>
+  <div class="gallery-grid">
+    <img src="images/img1.jpg" onclick="openLightbox(this)">
   </div>
 </div>
 
-<!-- CINEMATIC -->
+<div id="proposal" class="content-box" style="display:none;">
+  <h2>Will you be my girlfriend? 💍</h2>
+  <button onclick="yes()">Yes 💜</button>
+</div>
+
+</div>
+</div>
+
 <div id="cinematic">
   <h1>She said YES 💜</h1>
 </div>
 
-<!-- LIGHTBOX -->
 <div id="lightbox">
   <img id="lightbox-img">
 </div>
 
 <script>
 
-// hearts
-for(let i=0;i<25;i++){
-  let h=document.createElement('div');
-  h.className='heart';
-  h.innerHTML='💜';
-  h.style.left=Math.random()*100+'vw';
-  h.style.animationDuration=(3+Math.random()*3)+'s';
-  document.body.appendChild(h);
-}
+// 🔐 START DATE
+const startDate = new Date("2026-05-05");
 
-// NAVIGATION
+// 📅 UNLOCK DAYS
+const unlockDays = {
+  gallery:2,
+  notes:3,
+  letter:4,
+  proposal:5
+};
+
+// NAVIGATION (WITH LOCK)
 function show(id){
+  const today = Math.floor((new Date()-startDate)/(1000*60*60*24))+1;
+
+  if(unlockDays[id] && today < unlockDays[id]){
+    alert("💜 Not yet love! Come back soon...");
+    return;
+  }
+
   document.querySelectorAll('.content-box').forEach(x=>x.style.display='none');
   document.getElementById(id).style.display='block';
 }
 
-// NO BUTTON RUN
-function runNo(){
-  const b=document.getElementById('noBtn');
-  b.style.left=Math.random()*200+'px';
-  b.style.top=Math.random()*120+'px';
-}
-
-// YES BUTTON
-function yes(){
-  document.getElementById('cinematic').style.display='flex';
-  launchConfetti();
-}
-
-// LOGIN (ONLY CHANGE HERE)
+// LOGIN (FIXED PASSWORD)
 function start(){
   const code=document.getElementById('code').value;
+
   if(code==='darling'){
-    document.getElementById('login').style.display='none';
-    document.getElementById('welcome').style.display='block';
+    login.style.display='none';
+    welcome.style.display='block';
 
     setTimeout(()=>{
-      document.getElementById('welcome').style.display='none';
-      document.getElementById('mainPage').style.display='block';
+      welcome.style.display='none';
+      mainPage.style.display='block';
       type();
-      launchConfetti();
     },2000);
   }
 }
 
-document.getElementById('enterBtn').addEventListener('click',start);
-document.getElementById('code').addEventListener('keydown',(e)=>{if(e.key==='Enter')start();});
+enterBtn.onclick=start;
 
 // TYPEWRITER
 function type(){
@@ -306,7 +278,7 @@ function type(){
   let i=0;
   function t(){
     if(i<text.length){
-      document.getElementById('typewriter').innerHTML+=text[i++];
+      typewriter.innerHTML+=text[i++];
       setTimeout(t,40);
     }
   }
@@ -315,32 +287,24 @@ function type(){
 
 // LIGHTBOX
 function openLightbox(img){
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-img');
-  lightbox.style.display = 'flex';
-  lightboxImg.src = img.src;
+  lightbox.style.display='flex';
+  lightbox-img.src=img.src;
+}
+lightbox.onclick=()=>lightbox.style.display='none';
+
+// YES
+function yes(){
+  cinematic.style.display='flex';
 }
 
-document.getElementById('lightbox').addEventListener('click', function(){
-  this.style.display = 'none';
-});
-
-// CONFETTI
-function launchConfetti(){
-  const c=document.getElementById('confetti');
-  const ctx=c.getContext('2d');
-  c.width=innerWidth;
-  c.height=innerHeight;
-
-  let p=Array.from({length:80},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*5+2}));
-
-  function d(){
-    ctx.clearRect(0,0,c.width,c.height);
-    ctx.fillStyle='#cdb4db';
-    p.forEach(o=>{ctx.beginPath();ctx.arc(o.x,o.y,o.r,0,Math.PI*2);ctx.fill();o.y+=2;if(o.y>c.height)o.y=0;});
-    requestAnimationFrame(d);
-  }
-  d();
+// HEARTS
+for(let i=0;i<25;i++){
+  let h=document.createElement('div');
+  h.className='heart';
+  h.innerHTML='💜';
+  h.style.left=Math.random()*100+'vw';
+  h.style.animationDuration=(3+Math.random()*3)+'s';
+  document.body.appendChild(h);
 }
 
 </script>
