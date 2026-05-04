@@ -24,6 +24,7 @@ html, body {
   font-size:18px;
   animation:float 6s linear infinite;
 }
+
 @keyframes float{
   0%{transform:translateY(100vh);opacity:0;}
   50%{opacity:1;}
@@ -40,7 +41,6 @@ html, body {
   border-radius:20px;
   text-align:center;
   width:320px;
-  z-index:10;
 }
 
 input,button{
@@ -92,23 +92,6 @@ button{
   text-align:center;
 }
 
-/* LOCK SCREEN FIXED (IMPORTANT PART) */
-#locked{
-  display:none;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100vw;
-  height:100vh;
-  background:rgba(255,255,255,0.95);
-  z-index:9999;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  text-align:center;
-}
-
 .song{
   margin:10px 0;
   padding:10px;
@@ -124,6 +107,7 @@ audio{width:100%;}
   grid-template-columns:repeat(3,1fr);
   gap:10px;
 }
+
 .gallery-grid img{
   width:100%;
   border-radius:10px;
@@ -141,10 +125,8 @@ audio{width:100%;}
   justify-content:center;
   align-items:center;
   font-size:30px;
-  z-index:999;
 }
 
-/* LIGHTBOX */
 #lightbox{
   display:none;
   position:fixed;
@@ -155,22 +137,11 @@ audio{width:100%;}
   background:rgba(0,0,0,0.9);
   justify-content:center;
   align-items:center;
-  z-index:10000;
 }
+
 #lightbox img{
   max-width:90%;
   max-height:90%;
-}
-
-/* PROPOSAL FIX */
-.proposal-box{
-  position:relative;
-  height:120px;
-  margin-top:20px;
-}
-
-#noBtn{
-  position:absolute;
 }
 </style>
 </head>
@@ -187,7 +158,7 @@ audio{width:100%;}
 <!-- WELCOME -->
 <div id="welcome" class="center-box" style="display:none;">
   <h2>Welcome baby 💜</h2>
-  <p>You finally made it! 💜</p>
+  <p>You finally made it! Naks alam ang secret code HAHAHA 💜</p>
 </div>
 
 <!-- MAIN -->
@@ -225,14 +196,11 @@ audio{width:100%;}
     <div class="song-title">💜 Best Part - Daniel Caesar</div>
     <audio controls src="songs/song3.mp3"></audio>
   </div>
-
 </div>
 
 <div id="notes" class="content-box">
   <h2>Notes 📝</h2>
-  • Take care always!<br>
-  • Always eat on time.<br>
-  • Drive safe!
+  <p>Take care always 💜</p>
 </div>
 
 <div id="gallery" class="content-box">
@@ -241,27 +209,20 @@ audio{width:100%;}
     <img src="images/img1.jpg" onclick="openLightbox(this)">
     <img src="images/img2.jpg" onclick="openLightbox(this)">
     <img src="images/img3.jpg" onclick="openLightbox(this)">
-    <img src="images/img4.jpg" onclick="openLightbox(this)">
-    <img src="images/img5.jpg" onclick="openLightbox(this)">
-    <img src="images/img6.jpg" onclick="openLightbox(this)">
   </div>
 </div>
 
 <div id="proposal" class="content-box">
   <h2>Will you be my girlfriend? 💍</h2>
-  <div class="proposal-box">
-    <button onclick="yes()">Yes 💜</button>
-    <button id="noBtn" onmouseover="runNo()">No 🤍</button>
-  </div>
+  <button onclick="yes()">Yes 💜</button>
 </div>
 
-</div>
-</div>
-
-<!-- LOCK SCREEN FIXED OVERLAY -->
-<div id="locked">
+<div id="locked" class="content-box">
   <h2>💜 Locked</h2>
   <p id="lockMsg"></p>
+</div>
+
+</div>
 </div>
 
 <div id="cinematic">She said YES 💜</div>
@@ -272,93 +233,56 @@ audio{width:100%;}
 
 <script>
 
-/* =======================
-   DATE SYSTEM
-======================= */
-
-const startDate = new Date("2026-05-05T00:00:00");
+// DATE SYSTEM
+const startDate = new Date("2026-05-05");
 
 const unlockDays = {
-  gallery: 2,
-  notes: 3,
-  letter: 4,
-  proposal: 4
+  gallery:2,
+  notes:3,
+  proposal:4
 };
 
 function getDay(){
-  const now = new Date();
-
-  const start = new Date(
-    startDate.getFullYear(),
-    startDate.getMonth(),
-    startDate.getDate()
-  );
-
-  const today = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate()
-  );
-
-  return Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
+  return Math.floor((new Date()-startDate)/(1000*60*60*24))+1;
 }
 
-/* =======================
-   NAVIGATION (FIXED STATE BUG)
-======================= */
-
+// NAVIGATION
 function show(id){
-  const today = getDay();
+  const today=getDay();
 
-  // ALWAYS hide all pages first
-  document.querySelectorAll('.content-box')
-    .forEach(x => x.style.display = 'none');
+  document.querySelectorAll('.content-box').forEach(x=>x.style.display='none');
 
-  // ALWAYS hide lock screen unless needed
-  document.getElementById('locked').style.display = 'none';
-
-  // CHECK LOCK
-  if (unlockDays[id] !== undefined && today < unlockDays[id]) {
-    document.getElementById('locked').style.display = 'flex';
+  if(unlockDays[id] && today < unlockDays[id]){
+    document.getElementById('locked').style.display='block';
     document.getElementById('lockMsg').innerText =
-      `Come back in ${unlockDays[id] - today} day(s) 💜`;
+      "Come back in " + (unlockDays[id]-today) + " day(s) 💜";
     return;
   }
 
-  // SHOW CONTENT
-  document.getElementById(id).style.display = 'block';
+  document.getElementById(id).style.display='block';
 }
 
-/* =======================
-   LOGIN
-======================= */
-
+// LOGIN
 function start(){
-  const code = document.getElementById('code').value;
-
-  if(code === 'darling'){
-    document.getElementById('login').style.display = 'none';
-    document.getElementById('welcome').style.display = 'block';
+  if(document.getElementById('code').value === 'darling'){
+    document.getElementById('login').style.display='none';
+    document.getElementById('welcome').style.display='block';
 
     setTimeout(()=>{
-      document.getElementById('welcome').style.display = 'none';
-      document.getElementById('mainPage').style.display = 'block';
+      document.getElementById('welcome').style.display='none';
+      document.getElementById('mainPage').style.display='block';
       show('letter');
       type();
     },2000);
   }
 }
 
-/* =======================
-   TYPEWRITER
-======================= */
-
+// TYPEWRITER
 function type(){
-  const text = "Hi love, you are my forever. I love you 💜";
-  let i = 0;
-
+  const text="Hi love, you are my forever 💜";
+  let i=0;
   function t(){
-    if(i < text.length){
+    if(i<text.length){
       document.getElementById('typewriter').innerHTML += text[i++];
       setTimeout(t,40);
     }
@@ -366,46 +290,22 @@ function type(){
   t();
 }
 
-/* =======================
-   LIGHTBOX
-======================= */
-
+// LIGHTBOX
 function openLightbox(img){
   document.getElementById('lightbox').style.display='flex';
-  document.getElementById('lightbox-img').src = img.src;
+  document.getElementById('lightbox-img').src=img.src;
 }
 
-document.getElementById('lightbox').onclick = ()=>{
+document.getElementById('lightbox').onclick=()=>{
   document.getElementById('lightbox').style.display='none';
 };
 
-/* =======================
-   YES BUTTON
-======================= */
-
+// YES
 function yes(){
   document.getElementById('cinematic').style.display='flex';
 }
 
-/* =======================
-   NO BUTTON
-======================= */
-
-function runNo(){
-  const btn = document.getElementById('noBtn');
-  const box = document.querySelector('.proposal-box');
-
-  const maxX = box.clientWidth - 80;
-  const maxY = box.clientHeight - 40;
-
-  btn.style.left = Math.random() * maxX + 'px';
-  btn.style.top = Math.random() * maxY + 'px';
-}
-
-/* =======================
-   HEARTS
-======================= */
-
+// HEARTS
 for(let i=0;i<25;i++){
   let h=document.createElement('div');
   h.className='heart';
@@ -416,7 +316,6 @@ for(let i=0;i<25;i++){
 }
 
 </script>
-💜 WHAT IS NO
 
 </body>
 </html>
