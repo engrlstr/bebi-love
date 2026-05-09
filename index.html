@@ -268,11 +268,11 @@ document.getElementById('enterBtn').addEventListener('click', function () {
 
 /* LOCK SYSTEM */
 const unlockDays = {
-  letter: 4,
+  letter: 0,
   music: 0,
   notes: 0,
   gallery: 0,
-  proposal: 4
+  proposal: 0
 };
 
 function getStartTime(){
@@ -312,7 +312,7 @@ function show(id){
 
 /* TYPEWRITER */
 function type(){
-  const text = "Hi love, you are my forever 💜";
+  const text = "Hi bebi! It’s been 3 months since we first talked sa Discord, and I just want you to know how grateful ako na nakilala kita. Yung soft-spoken mong pagtuturo habang naglalaro tayo ng Demonology, grabe sobrang kinikilig talaga ako doon. And kahit umabot pa sa point na yung pagiging soft-spoken mo maging dragon ka minsan, okay lang sa akin because I love every side of you. I just wanted to let you know kung gaano kita kamahal. Thank you for always making me happy, comforting me, and staying with me through everything. These past 3 months became so special because of you, and I’m really excited for all the memories na gagawin pa natin together. After you read this letter, go to the “Question” button po 💜";
   let i = 0;
   function t(){
     if(i < text.length){
